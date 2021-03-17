@@ -1,0 +1,13 @@
+.rbc-timeslot-group {
+    height: auto;
+}
+
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event{
+    border: unset;
+}
+
+
+.rbc-time-column .rbc-timeslot-group {
+    min-height: 50px;
+}
+

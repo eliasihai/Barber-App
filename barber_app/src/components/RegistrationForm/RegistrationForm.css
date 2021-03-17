@@ -1,0 +1,8 @@
+.errStyle {
+    color: red;
+    display: block;
+}
+
+.formIsValid {
+    display: none;
+}
