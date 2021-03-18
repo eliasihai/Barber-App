@@ -44,7 +44,7 @@ class MyCalendar extends Component {
 
   componentDidMount(){
     axios
-      .get("http://localhost:8000/api/Events/AllEvents")
+      .get("https://calm-retreat-65596.herokuapp.com/api/Events/AllEvents")
       .then((response) => {
         console.log(response.data[2].start)
         // this.setState({ events: response.data });
