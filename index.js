@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'production'){
   // Set static folder
   app.use(express.static('barber_app/build'));
   app.get('*', (req, res)=>{
-    res.sendFile(path.resolve(__dirname, 'barber_app', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../barber_app', 'build', 'index.html'));
   })
 }
 app.listen(PORT, () => {
