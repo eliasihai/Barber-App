@@ -17,10 +17,10 @@ dotenv.config();
 // Connect To DataBase
 mongoose.connect(
   process.env.DB_CONNECT,
-  { useNewUrlParser: true,useCreateIndex:true, useUnifiedTopology: true },
-  () => {
+  { useNewUrlParser: true,useCreateIndex:true, useUnifiedTopology: true, useFindAndModify: false }
+  .then(() => {
     console.log("Connected to DB");
-  }
+  }).catch(err => console.log(err))
 );
 
 app.use(bodyParser.json());
