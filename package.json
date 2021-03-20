@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix barber_app && npm run build --prefix barber_app",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
