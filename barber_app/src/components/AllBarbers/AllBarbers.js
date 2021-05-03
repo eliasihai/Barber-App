@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Barber from "../AllBarbers/Barber";
-
+import Barber from "../AllBarbers/Barber"
+import "./AllBarbers.css";
 class AllBarbers extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +26,8 @@ class AllBarbers extends Component {
   handleOutPutClick = (barber_id) => {
     // console.log(event);
     console.log(barber_id);
-    window.location = "/calendar";
+    // <Route path="/calendar" component={BigCalendar} />
+    // window.location = "/calendar";
   };
 
   render() {
@@ -36,7 +37,9 @@ class AllBarbers extends Component {
       return (
         <Barber
           key={barber._id}
+          barberId={barber._id}
           firstName={barber.first_name}
+          lastName={barber.last_name}
           codeArea={barber.phoneNumberSelected1}
           phonDigits={barber.phone_digits}
           outPutClick={()=>this.handleOutPutClick(barber._id)}
@@ -56,7 +59,7 @@ class AllBarbers extends Component {
           </thead>
         </table> */}
         {this.state.barbers.length > 0 ? (
-          <div>{barbers}</div>
+          <div className="allBarbers-container">{barbers}</div>
         ) : (
           <div>Loading...</div>
         )}

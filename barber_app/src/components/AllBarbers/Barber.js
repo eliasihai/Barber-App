@@ -1,33 +1,23 @@
 import React from "react";
 import "./Barber.css";
-
-// const Barber = (props) => (
-//   <div className="barber-container" style={{marginBottom: '5rem', marginTop: '5rem'}} onClick={props.outPutClick}>
-//     {/* <h1>{props.firstName}</h1> */}
-//     <table className="table">
-//           {/* <thead className="thread-light"> */}
-//             <tr>
-//               <td>{props.firstName}</td>
-//               <td>{props.codeArea}-{props.phonDigits}</td>
-//             </tr>
-//           {/* </thead> */}
-//         </table>
-//   </div>
-// );
+import {Link} from 'react-router-dom'
 
 const Barber = (props) => (
+  <Link to="/calendar" barber_ID={props.barberId}>
   <div
     className="barber-container"
-    style={{ marginBottom: "5rem", marginTop: "5rem" }}
     onClick={props.outPutClick}
   >
     <div>
+      <div>{props.barberId}</div>
       <div>{props.firstName}</div>
+      <div>{props.lastName}</div>
       <div>
         {props.codeArea}-{props.phonDigits}
       </div>
     </div>
   </div>
+  </Link>
 );
 
 export default Barber;

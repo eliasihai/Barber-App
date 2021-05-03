@@ -2,16 +2,13 @@ import React, { Component } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 // import { DragDropContext } from "react-dnd";
-// import events from "./events";
+import hardCodedEvents from "./events";
 
 // import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import "./Calendar.css";
 import axios from "axios";
-
-
-
 
 const localizer = momentLocalizer(moment);
 // const DnDCalendar = withDragAndDrop(Calendar);
@@ -36,18 +33,36 @@ class MyCalendar extends Component {
 
     // this.moveEvent = this.moveEvent.bind(this);
     this.onEventClicked = this.onEventClicked.bind(this);
-    this.handlerSelected = this.handlerSelected.bind(this);
-    this.onSelectEventHandle = this.onSelectEventHandle.bind(this);
+    // this.handlerSelected = this.handlerSelected.bind(this);
+    // this.onSelectEventHandle = this.onSelectEventHandle.bind(this);
     this.addEventHandler = this.addEventHandler.bind(this);
+    // console.log(this.state.events1)
   }
 
 
-  componentDidMount(){
+  async componentDidMount(props){
+    // console.log(props.barber._id);
     axios
       .get("http://localhost:8000/api/Events/AllEvents")
       .then((response) => {
-        console.log(response.data[2].start)
-        // this.setState({ events: response.data });
+        // console.log(response.data[2].start);
+        console.log('didmount ',response.data);
+        let appointments = [];
+        for (let i = 0; i < response.data.length; i++) {
+
+          // if (response.data[i].title !== ''){
+            appointments.push(response.data[i])
+          // };
+        }
+        // console.log('appointments' , appointments)
+        
+        for (let i = 0; i < appointments.length; i++) {
+          appointments[i].start =    moment.utc(appointments[i].start).toDate();
+          appointments[i].end = moment.utc(appointments[i].end).toDate();
+
+        }
+
+        this.setState({ events: appointments });
       })
       .catch((error) => {
         console.log(error);
@@ -101,32 +116,44 @@ class MyCalendar extends Component {
   onEventClicked = (event) => {
     // const { events } = this.state;
     // events.forEach(event => console.log(event));
-    console.log(event);
+    console.log(' onEventClicked ', event);
+    
   };
 
-  handlerSelected = (event) => {
-    console.log(event);
-  };
-  onSelectEventHandle= (event) =>{
-    console.log(event);
+  // handlerSelected = (event) => {
+  //   console.log('handlerSelected ',event);
+  // };
+  // onSelectEventHandle= (event) =>{
+  //   console.log('onSelectEventHandle ', event );
+  // }
+  slotSelected= (event) =>{
+    console.log('slotSelected ', event );
+    console.log(event.slots[0]);
+    console.log(event.slots[1]);
   }
+
   render() {
     return (
       <div className="Calendar">
+                {/* {console.log('aaa', this.state.events)} */}
         <button onClick={this.addEventHandler}>Add Event</button>
-        <Calendar
+        {this.state.events.length > 0 ? 
+          // console.log(this.state.events.length)
+        (<Calendar
         selectable={true}
-        onSelectEvent={this.onSelectEventHandle}
+        // onSelectEvent={this.onSelectEventHandle}
           defaultDate={moment().toDate()}
           defaultView="day"
           events={this.state.events}
           localizer={localizer}
+          step={15}
           // date={this.state.date}
           style={{ height: "100vh" }}
-          onSelectEvent={this.onEventClicked}
-          onSelecting={this.handlerSelected}
-        />
-        {/* {console.log(events)} */}
+          // onSelectEvent={this.onEventClicked}
+          // onSelecting={this.handlerSelected}
+          onSelectSlot={(this.slotSelected)}
+        />)
+        : null}
       </div>
     );
   }

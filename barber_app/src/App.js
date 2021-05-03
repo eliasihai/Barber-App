@@ -28,7 +28,7 @@ class App extends Component {
 
   componentDidMount() {
     let store = JSON.parse(localStorage.getItem("login"));
-    console.log("store", store);
+    // console.log("store", store);
     if (store && store.login) {
       this.setState(
         {
@@ -38,15 +38,15 @@ class App extends Component {
           lastName: store.token.data.last_name,
           userType: store.token.data.type,
         },
-        () => {
-          console.log(
-            "componentDidMount: ",
-            this.state.login,
-            this.state.userName,
-            this.state.firstName,
-            this.state.lastName,
-          );
-        }
+        // () => {
+        //   console.log(
+        //     "componentDidMount: ",
+        //     this.state.login,
+        //     this.state.userName,
+        //     this.state.firstName,
+        //     this.state.lastName,
+        //   );
+        // }
       );
     }
   }

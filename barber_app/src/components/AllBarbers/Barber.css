@@ -1,5 +1,15 @@
 .barber-container{
-    border: 1px solid black;
+    /* border: 1px solid black;
+    margin-bottom: 2rem;
+    margin-top: 2rem; */
+    width: 300px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    margin: 8px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 tr {

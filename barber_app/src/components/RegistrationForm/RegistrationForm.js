@@ -148,335 +148,332 @@ class RegistrationForm extends Component {
   handleSubmitClick = (e) => {
     e.preventDefault();
 
-    // if (this.handleValidation()) {
-    //   alert("Form submitted");
-    // } else {
-    //   alert("Form has errors.");
-    // }
-    const user = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      password: this.state.password,
-      type: "user",
-      phoneNumberSelected1: this.state.phoneNumberSelected1,
-      phone_digits: this.state.phone_digits,
-      // phone: this.state.phoneNumberSelected1 + "-" + this.state.phone_digits,
-    };
-    const barber = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      password: this.state.password,
-      type: "barber",
-      phoneNumberSelected1: this.state.phoneNumberSelected1,
-      phone_digits: this.state.phone_digits,
-    };
+    if (this.handleValidation()) {
+      const user = {
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        email: this.state.email,
+        password: this.state.password,
+        type: "user",
+        phoneNumberSelected1: this.state.phoneNumberSelected1,
+        phone_digits: this.state.phone_digits,
+        // phone: this.state.phoneNumberSelected1 + "-" + this.state.phone_digits,
+      };
+      const barber = {
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        email: this.state.email,
+        password: this.state.password,
+        type: "barber",
+        phoneNumberSelected1: this.state.phoneNumberSelected1,
+        phone_digits: this.state.phone_digits,
+      };
 
-    if (this.state.checked === true) {
-      console.log(barber);
-      console.log("barber register");
-      axios
-        .post("http://localhost:8000/api/Barbers/register", barber)
-        .then((res) => console.log(res))
-        .catch((error) => {
-          console.log(error.response.data);
-          let errors = {};
-          let formIsValid = true;
-          let errorsBoolean = false;
-          // Name
-          if (this.state.first_name === "") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["first_name"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // last name
-          if (this.state.last_name === "") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["last_name"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          // Email
-          if (this.state.email === "") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["email"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          if (error.response.data.message === "Email already exist") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["email"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // Email
-          if (typeof this.state.email !== "undefined") {
-            let lastAtPos = this.state.email.lastIndexOf("@");
-            let lastDotPos = this.state.email.lastIndexOf(".");
-
-            if (
-              !(
-                lastAtPos < lastDotPos &&
-                lastAtPos > 0 &&
-                this.state.email.indexOf("@@") == -1 &&
-                lastDotPos > 2 &&
-                this.state.email.length - lastDotPos > 2
-              )
-            ) {
-              errorsBoolean = true;
+      if (this.state.checked === true) {
+        console.log(barber);
+        console.log("barber register");
+        axios
+          .post("http://localhost:8000/api/Barbers/register", barber)
+          .then((res) => console.log(res))
+          .catch((error) => {
+            console.log(error.response.data);
+            let errors = {};
+            let formIsValid = true;
+            let errorsBoolean = false;
+            // Name
+            if (this.state.first_name === "") {
               formIsValid = false;
-              errors["email"] = error.response.data.message;
+              errorsBoolean = true;
+              errors["first_name"] = error.response.data.message;
+  
               this.setState(
                 { errors: errors, errorsBoolean: errorsBoolean },
                 () => console.log(errorsBoolean)
               );
               return formIsValid;
             }
-          }
-          // password
-          if (this.state.password === "" || this.state.password.lenth < "6") {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["password"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // re password
-          if (this.state.confirmPassword === "") {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["confirmPassword"] =
-              "Password did not match: Please try again...";
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          if (this.state.password != this.state.confirmPassword) {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["confirmPassword"] =
-              "Password did not match: Please try again...";
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // area code selection
-          if (this.state.phoneNumberSelected1 === "") {
-            errorsBoolean = true;
-            formIsValid = false;
-            console.log(error.response.data.message)
-            errors["area_code"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // phone digits
-          if (this.state.phone_digits === "") {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["phoneDigits"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          return formIsValid;
-        });
-
-      window.location = "/Barber-App";
-    } else {
-      console.log(user);
-      console.log("user register");
-      axios
-        .post("http://localhost:8000/api/Users/register", user)
-        .then((res) => console.log(res))
-        .catch((error) => {
-          console.log(error.response.data);
-          let errors = {};
-          let formIsValid = true;
-          let errorsBoolean = false;
-          // Name
-          if (this.state.first_name === "") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["first_name"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // last name
-          if (this.state.last_name === "") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["last_name"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          // Email
-          if (this.state.email === "") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["email"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          if (error.response.data.message === "Email already exist") {
-            formIsValid = false;
-            errorsBoolean = true;
-            errors["email"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // Email
-          if (typeof this.state.email !== "undefined") {
-            let lastAtPos = this.state.email.lastIndexOf("@");
-            let lastDotPos = this.state.email.lastIndexOf(".");
-
-            if (
-              !(
-                lastAtPos < lastDotPos &&
-                lastAtPos > 0 &&
-                this.state.email.indexOf("@@") == -1 &&
-                lastDotPos > 2 &&
-                this.state.email.length - lastDotPos > 2
-              )
-            ) {
-              errorsBoolean = true;
+            // last name
+            if (this.state.last_name === "") {
               formIsValid = false;
-              errors["email"] = error.response.data.message;
+              errorsBoolean = true;
+              errors["last_name"] = error.response.data.message;
+  
               this.setState(
                 { errors: errors, errorsBoolean: errorsBoolean },
                 () => console.log(errorsBoolean)
               );
               return formIsValid;
             }
-          }
-          // password
-          if (this.state.password === "" || this.state.password.lenth < "6") {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["password"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
+  
+            // Email
+            if (this.state.email === "") {
+              formIsValid = false;
+              errorsBoolean = true;
+              errors["email"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
+            if (error.response.data.message === "Email already exist") {
+              formIsValid = false;
+              errorsBoolean = true;
+              errors["email"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // Email
+            if (typeof this.state.email !== "undefined") {
+              let lastAtPos = this.state.email.lastIndexOf("@");
+              let lastDotPos = this.state.email.lastIndexOf(".");
+  
+              if (
+                !(
+                  lastAtPos < lastDotPos &&
+                  lastAtPos > 0 &&
+                  this.state.email.indexOf("@@") == -1 &&
+                  lastDotPos > 2 &&
+                  this.state.email.length - lastDotPos > 2
+                )
+              ) {
+                errorsBoolean = true;
+                formIsValid = false;
+                errors["email"] = error.response.data.message;
+                this.setState(
+                  { errors: errors, errorsBoolean: errorsBoolean },
+                  () => console.log(errorsBoolean)
+                );
+                return formIsValid;
+              }
+            }
+            // password
+            if (this.state.password === "" || this.state.password.lenth < "6") {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["password"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // re password
+            if (this.state.confirmPassword === "") {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["confirmPassword"] =
+                "Password did not match: Please try again...";
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
+            if (this.state.password != this.state.confirmPassword) {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["confirmPassword"] =
+                "Password did not match: Please try again...";
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // area code selection
+            if (this.state.phoneNumberSelected1 === "") {
+              errorsBoolean = true;
+              formIsValid = false;
+              console.log(error.response.data.message)
+              errors["area_code"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // phone digits
+            if (this.state.phone_digits === "") {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["phoneDigits"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
             return formIsValid;
-          }
-          // re password
-          if (this.state.confirmPassword === "") {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["confirmPassword"] =
-              "Password did not match: Please try again...";
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
+          });
+  
+        window.location = "/Barber-App";
+      } else {
+        console.log(user);
+        console.log("user register");
+        axios
+          .post("http://localhost:8000/api/Users/register", user)
+          .then((res) => console.log(res))
+          .catch((error) => {
+            console.log(error.response.data);
+            let errors = {};
+            let formIsValid = true;
+            let errorsBoolean = false;
+            // Name
+            if (this.state.first_name === "") {
+              formIsValid = false;
+              errorsBoolean = true;
+              errors["first_name"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // last name
+            if (this.state.last_name === "") {
+              formIsValid = false;
+              errorsBoolean = true;
+              errors["last_name"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
+            // Email
+            if (this.state.email === "") {
+              formIsValid = false;
+              errorsBoolean = true;
+              errors["email"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
+            if (error.response.data.message === "Email already exist") {
+              formIsValid = false;
+              errorsBoolean = true;
+              errors["email"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // Email
+            if (typeof this.state.email !== "undefined") {
+              let lastAtPos = this.state.email.lastIndexOf("@");
+              let lastDotPos = this.state.email.lastIndexOf(".");
+  
+              if (
+                !(
+                  lastAtPos < lastDotPos &&
+                  lastAtPos > 0 &&
+                  this.state.email.indexOf("@@") == -1 &&
+                  lastDotPos > 2 &&
+                  this.state.email.length - lastDotPos > 2
+                )
+              ) {
+                errorsBoolean = true;
+                formIsValid = false;
+                errors["email"] = error.response.data.message;
+                this.setState(
+                  { errors: errors, errorsBoolean: errorsBoolean },
+                  () => console.log(errorsBoolean)
+                );
+                return formIsValid;
+              }
+            }
+            // password
+            if (this.state.password === "" || this.state.password.lenth < "6") {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["password"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // re password
+            if (this.state.confirmPassword === "") {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["confirmPassword"] =
+                "Password did not match: Please try again...";
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
+            if (this.state.password != this.state.confirmPassword) {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["confirmPassword"] =
+                "Password did not match: Please try again...";
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // area code selection
+            if (this.state.phoneNumberSelected1 === "") {
+              errorsBoolean = true;
+              formIsValid = false;
+              console.log(error.response.data.message)
+              errors["area_code"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+            // phone digits
+            if (this.state.phone_digits === "") {
+              errorsBoolean = true;
+              formIsValid = false;
+              errors["phoneDigits"] = error.response.data.message;
+  
+              this.setState(
+                { errors: errors, errorsBoolean: errorsBoolean },
+                () => console.log(errorsBoolean)
+              );
+              return formIsValid;
+            }
+  
             return formIsValid;
-          }
-
-          if (this.state.password != this.state.confirmPassword) {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["confirmPassword"] =
-              "Password did not match: Please try again...";
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // area code selection
-          if (this.state.phoneNumberSelected1 === "") {
-            errorsBoolean = true;
-            formIsValid = false;
-            console.log(error.response.data.message)
-            errors["area_code"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-          // phone digits
-          if (this.state.phone_digits === "") {
-            errorsBoolean = true;
-            formIsValid = false;
-            errors["phoneDigits"] = error.response.data.message;
-
-            this.setState(
-              { errors: errors, errorsBoolean: errorsBoolean },
-              () => console.log(errorsBoolean)
-            );
-            return formIsValid;
-          }
-
-          return formIsValid;
-        });
-
-      window.location = "/Barber-App";
+          });
+  
+        window.location = "/Barber-App";
+      }
     }
   };
 
