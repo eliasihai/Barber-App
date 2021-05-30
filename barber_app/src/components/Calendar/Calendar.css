@@ -4,9 +4,21 @@
 
 .rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event{
     border: unset;
+
 }
 
-
+.rbc-event::after{
+    content: '';
+    color: #fff;
+    font-weight: 300;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    right: 30%;
+    background: url('../../images/delete.png');
+    width:20px;
+    height:20px;
+    background-size:cover;
+}
 .rbc-time-column .rbc-timeslot-group {
     min-height: 50px;
 }

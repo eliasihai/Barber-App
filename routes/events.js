@@ -10,6 +10,24 @@ router.get("/Events/AllEvents", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// Get Events by barber ID
+router.get("/Events/:barberID", (req, res) => {
+  try {
+    //const lecture = req.params.studentID;
+    Event.find(
+      { barberID: req.params.barberID },
+      function (err, event1) {
+        res.json({
+          status: "ok",
+          data: event1,
+        });
+      }
+    );
+  } catch (err) {
+    res.json({ message: "err: " + err });
+  }
+});
+
 router.post("/Events/CreateEvent", async (req, res) => {
   // VALIDATE DATA
   // const { error } = registerBarberValidation(req.body);
@@ -21,17 +39,17 @@ router.post("/Events/CreateEvent", async (req, res) => {
 
   // Create a new barber
   const event = new Event({
-    // barberID: req.body.barberID,
-    // userID: req.body.userID,
-    // barberName: req.body.barberName,
-    // userName: req.body.userName,
+    barberID: req.body.barberID,
+    userID: req.body.userID,
+    barberName: req.body.barberName,
+    userName: req.body.userName,
+    title: req.body.title,
+    start: req.body.start,
+    end: req.body.end,
     // date: req.body.date,
     // start: req.body.start,
     // end: req.body.end,
-    id: req.body.id,
-    title: req.body.title,
-    start: req.body.start,
-    end: req.body.end
+    // id: req.body.id,
   });
   try {
     const savedEvent = await event.save();

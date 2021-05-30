@@ -10,6 +10,8 @@ router.get("/Users/getAllUsers", async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+
+
 router.post("/Users/register", async (req, res) => {
   // VALIDATE DATA
   const { error } = registerValidation(req.body);
@@ -60,7 +62,7 @@ router.post("/Users/login", async (req, res) => {
   if (!validPass) return res.status(204).send("Password is wrong");
 
   //Create and assign a token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, { expiresIn: '1H'});
   res.json({
     status: "ok",
     header: token,
